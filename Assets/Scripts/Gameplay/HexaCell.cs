@@ -13,6 +13,13 @@ public class HexaCell : MonoBehaviour
     [SerializeField] TMP_Text txtNumUnlock;
 
     [SerializeField] GameObject lockObj;
+    [SerializeField] MeshRenderer _renderer;
+    [SerializeField] Material _normal, _hover;
+
+    public void Hover(bool isHover)
+    {
+        _renderer.materials[1] = isHover ? _hover : _normal;
+    }
 
     void UpdateTxtNumUnlock(int quantity)
     {

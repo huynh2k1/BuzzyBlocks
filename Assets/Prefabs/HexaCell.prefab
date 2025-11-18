@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 6581070243604350450}
   - component: {fileID: 6626695254504431511}
   - component: {fileID: 1868513821910522993}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HexaCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,8 +219,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5613794826774331662, guid: 1a075be071a938d4ba15b9d83382870b, type: 3}
-  - {fileID: -8809518456156902908, guid: 1a075be071a938d4ba15b9d83382870b, type: 3}
+  - {fileID: 2100000, guid: b53ebbe8778222445a1733d9b552edb9, type: 2}
+  - {fileID: 2100000, guid: efba1e835992da244b2237836bbe2754, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
