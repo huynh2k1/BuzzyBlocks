@@ -17,7 +17,7 @@ public class StackSpawner : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        //InputController.OnStackPlace += StackPlaceCallback;
+        InputCtrl.OnStackPlace += StackPlaceCallback;
     }
 
     private void OnDestroy()
@@ -25,15 +25,15 @@ public class StackSpawner : MonoBehaviour
         //InputController.OnStackPlace -= StackPlaceCallback;
     }
 
-    //private void StackPlaceCallback(HexaGrid gridCell)
-    //{
-    //    stackCounter++;
-    //    if (stackCounter >= 3)
-    //    {
-    //        stackCounter = 0;
-    //        GenerateStacks();
-    //    }
-    //}
+    private void StackPlaceCallback(HexaCell hexaCell)
+    {
+        stackCounter++;
+        if (stackCounter >= 3)
+        {
+            stackCounter = 0;
+            GenerateStacks();
+        }
+    }
 
     private void Start()
     {

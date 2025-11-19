@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class InputCtrl : MonoBehaviour
@@ -58,27 +58,51 @@ public class InputCtrl : MonoBehaviour
 
         Vector3 currentStackTargetPos = hit.point.With(y: 2);
         currentStack.transform.position = currentStackTargetPos;
-        HoverHexaGrid(hit);
+        HoverHexaGrid();
     }
 
-    void HoverHexaGrid(RaycastHit hit)
+    void HoverHexaGrid()
     {
-        Physics.Raycast(GetClickedRay(), out hit, 500, hexagridLayerMask);
-        if (hit.collider == null)
+        if (Physics.Raycast(GetClickedRay(), out RaycastHit hit, 500, hexagridLayerMask))
         {
-            return;
-        }
-        HexaCell hexaCell = hit.collider.GetComponent<HexaCell>();
+            HexaCell hexaCell = hit.collider.GetComponentInParent<HexaCell>();
+            if (hexaCell == null)
+                return;
 
-        if (hexaCell != null && !hexaCell.IsOccupied)
-        {
-            if(targetGridCell != null)
+            if (hexaCell.IsOccupied)
+            {
+                if(targetGridCell != null)
+                {
+                    targetGridCell.Hover(false);
+                    targetGridCell = null;  
+                }
+                return;
+            }
+
+            // Lần đầu hover
+            if (targetGridCell == null)
+            {
+                targetGridCell = hexaCell;
+                targetGridCell.Hover(true);
+                return;
+            }
+
+            // Nếu hover sang cell khác
+            if (hexaCell != targetGridCell)
             {
                 targetGridCell.Hover(false);
-                targetGridCell = null;  
+                targetGridCell = hexaCell;
+                targetGridCell.Hover(true);
             }
-            targetGridCell = hexaCell;
-            hexaCell.Hover(true);
+        }
+        else
+        {
+            // Raycast không trúng cell nào => tắt hover cũ
+            if (targetGridCell != null)
+            {
+                targetGridCell.Hover(false);
+                targetGridCell = null;
+            }
         }
     }
 
@@ -95,7 +119,12 @@ public class InputCtrl : MonoBehaviour
         currentStack.transform.SetParent(targetGridCell.transform);
         currentStack.Place();
 
+        targetGridCell.AssignStack(currentStack);
+        OnStackPlace?.Invoke(targetGridCell);
+
         currentStack = null;
+
+        targetGridCell.Hover(false);
         targetGridCell = null;
     }
 

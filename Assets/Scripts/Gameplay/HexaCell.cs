@@ -1,9 +1,9 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class HexaCell : MonoBehaviour
 {
-    public HexaStack Stack { get; private set; }
+    public HexaStack Stack { get; private set; } //Stack chiếm đóng
     public Vector3 GetPos => transform.position;
 
     public int q;
@@ -27,7 +27,9 @@ public class HexaCell : MonoBehaviour
 
     public void Hover(bool isHover)
     {
-        _renderer.materials[1] = isHover ? _hover : _normal;
+        var mats = _renderer.materials;  // lấy ra mảng copy
+        mats[1] = isHover ? _hover : _normal;
+        _renderer.materials = mats;
     }
 
     void UpdateTxtNumUnlock(int quantity)
@@ -55,6 +57,11 @@ public class HexaCell : MonoBehaviour
             UpdateTxtNumUnlock(quantity);
         }
         lockObj.SetActive(isShow);  
+    }
+
+    public void AssignStack(HexaStack stack)
+    {
+        Stack = stack;
     }
 }
 public enum CellType
