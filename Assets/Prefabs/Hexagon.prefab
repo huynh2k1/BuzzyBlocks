@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7331983074017026521}
   - component: {fileID: 147917188501045170}
   - component: {fileID: 5953680191132251124}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef04281bb1a8f944811ade702a2650b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 7331983074017026521}
-  collider: {fileID: 0}
+  meshRenderer: {fileID: 7331983074017026521}
+  _collider: {fileID: 5953680191132251124}
 --- !u!64 &5953680191132251124
 MeshCollider:
   m_ObjectHideFlags: 0

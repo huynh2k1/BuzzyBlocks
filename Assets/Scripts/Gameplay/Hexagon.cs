@@ -4,14 +4,14 @@ using UnityEngine;
 public class Hexagon : MonoBehaviour
 {
     [Header("Elements")]
-    [SerializeField] private new Renderer renderer;
-    [SerializeField] Collider collider;
+    [SerializeField] private new Renderer meshRenderer;
+    [SerializeField] Collider _collider;
 
     public HexaStack HexStack { get; private set; }
     public Color Color
     {
-        get => renderer.material.color;
-        set => renderer.material.color = value;
+        get => meshRenderer.material.color;
+        set => meshRenderer.material.color = value;
     }
 
     //Set hexa hiện tại cho 1 cái stack chứa nó
@@ -22,7 +22,7 @@ public class Hexagon : MonoBehaviour
 
     public void DisableCollider()
     {
-        collider.enabled = false;
+        _collider.enabled = false;
     }
 
     public void SetParent(Transform parent)

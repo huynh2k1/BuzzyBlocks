@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class HexaCell : MonoBehaviour
 {
+    public HexaStack Stack { get; private set; }
+    public Vector3 GetPos => transform.position;
+
     public int q;
     public int r;
 
@@ -15,6 +18,12 @@ public class HexaCell : MonoBehaviour
     [SerializeField] GameObject lockObj;
     [SerializeField] MeshRenderer _renderer;
     [SerializeField] Material _normal, _hover;
+
+    public bool IsOccupied
+    {
+        get => Stack != null;
+        private set { }
+    }
 
     public void Hover(bool isHover)
     {

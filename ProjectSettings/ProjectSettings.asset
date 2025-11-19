@@ -163,6 +163,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
+    Android: com.DefaultCompany.BuzzyBlocks
     Standalone: com.DefaultCompany.3D-Project
   buildNumber:
     Standalone: 0
@@ -861,7 +862,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 8670c85f-aaf6-48cb-b629-4fc6e5765c41
   framebufferDepthMemorylessMode: 0

@@ -52,6 +52,9 @@ MonoBehaviour:
   cellType: 0
   txtNumUnlock: {fileID: 7385299707868711406}
   lockObj: {fileID: 4177293010421523731}
+  _renderer: {fileID: 6626695254504431511}
+  _normal: {fileID: 2100000, guid: efba1e835992da244b2237836bbe2754, type: 2}
+  _hover: {fileID: 2100000, guid: 4ca08cc938fcb8b478e1021b8f250e6f, type: 2}
 --- !u!1 &1665659860876778740
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +406,9 @@ MonoBehaviour:
   cellType: 0
   txtNumUnlock: {fileID: 0}
   lockObj: {fileID: 4177293010421523731}
+  _renderer: {fileID: 0}
+  _normal: {fileID: 0}
+  _hover: {fileID: 0}
 --- !u!1 &6041104393529548948
 GameObject:
   m_ObjectHideFlags: 0
