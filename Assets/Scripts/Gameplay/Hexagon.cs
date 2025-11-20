@@ -4,14 +4,14 @@ using UnityEngine;
 public class Hexagon : MonoBehaviour
 {
     [Header("Elements")]
-    [SerializeField] private new Renderer meshRenderer;
+    [SerializeField] private Renderer _meshRenderer;
     [SerializeField] Collider _collider;
 
     public HexaStack HexStack { get; private set; }
     public Color Color
     {
-        get => meshRenderer.material.color;
-        set => meshRenderer.material.color = value;
+        get => _meshRenderer.material.color;
+        set => _meshRenderer.material.color = value;
     }
 
     //Set hexa hiện tại cho 1 cái stack chứa nó
@@ -29,7 +29,7 @@ public class Hexagon : MonoBehaviour
     {
         transform.SetParent(parent);
     }
-
+    //Di chuyển hexagon sang stack khác
     public void MoveToLocal(Vector3 targetPos)
     {
         LeanTween.cancel(gameObject);
@@ -48,6 +48,7 @@ public class Hexagon : MonoBehaviour
         //    .SetEase(Ease.InOutSine).SetDelay(delay);
     }
 
+    //Biến mất
     public void Vanish(float delay)
     {
         transform.DOKill();
