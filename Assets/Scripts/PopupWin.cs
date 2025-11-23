@@ -2,41 +2,41 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupWin : BasePopup
+public class PopupWin : RootPopup
 {
-    public override UIType Type => UIType.Win;
+    public override TypeUI Type => TypeUI.Win;
 
     [SerializeField] Button _btnReplay;
     [SerializeField] Button _btnHome;
     [SerializeField] Button _btnNext;
 
-    public static Action OnClickReplayAction;
-    public static Action OnClickHomeAction;
-    public static Action OnClickNextAction;
+    public static Action ReplayAction;
+    public static Action HomeAction;
+    public static Action NextAction;
 
     protected override void Awake()
     {
         base.Awake();
-        _btnReplay.onClick.AddListener(OnClickReplay);
-        _btnHome.onClick.AddListener(OnClickHome);
-        _btnNext.onClick.AddListener(OnClickNext);
+        _btnReplay.onClick.AddListener(ReplayEvent);
+        _btnHome.onClick.AddListener(HomeEvent);
+        _btnNext.onClick.AddListener(NextEvent);
     }
 
-    void OnClickReplay()
+    void ReplayEvent()
     {
-        Hide();
-        OnClickReplayAction?.Invoke();
+        DeActive();
+        ReplayAction?.Invoke();
     }
 
-    void OnClickHome()
+    void HomeEvent()
     {
-        Hide();
-        OnClickHomeAction?.Invoke();
+        DeActive();
+        HomeAction?.Invoke();
     }
 
-    void OnClickNext()
+    void NextEvent()
     {
-        Hide();
-        OnClickNextAction?.Invoke();
+        DeActive();
+        NextAction?.Invoke();
     }
 }

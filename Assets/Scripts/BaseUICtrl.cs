@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BaseUICtrl : MonoBehaviour
 {
-    public BaseUI[] _arrUI;
-    protected Dictionary<UIType, BaseUI> _uis = new Dictionary<UIType, BaseUI>();
+    public UIRoot[] _arrUI;
+    protected Dictionary<TypeUI, UIRoot> _uis = new Dictionary<TypeUI, UIRoot>();
 
     protected virtual void Awake()
     {
@@ -14,21 +14,21 @@ public class BaseUICtrl : MonoBehaviour
         }
     }
 
-    public virtual void Show(UIType type)
+    public virtual void Show(TypeUI type)
     {
         if (!_uis.ContainsKey(type))
         {
             return;
         }
-        _uis[type].Show();
+        _uis[type].Active();
     }
 
-    public virtual void Hide(UIType type)
+    public virtual void Hide(TypeUI type)
     {
         if (!_uis.ContainsKey(type))
         {
             return;
         }
-        _uis[type].Hide();
+        _uis[type].DeActive();
     }
 }

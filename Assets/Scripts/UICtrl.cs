@@ -15,18 +15,18 @@ public class UICtrl : BaseUICtrl
 
     public void ShowHome()
     {
-        Show(UIType.Home);
-        Hide(UIType.Game);
+        Show(TypeUI.Home);
+        Hide(TypeUI.Game);
     }
 
     public void ShowGame()
     {
-        Show(UIType.Game);
-        Hide(UIType.Home);
+        Show(TypeUI.Game);
+        Hide(TypeUI.Home);
     }
 
     void ShowHTP()
     {
-        Show(UIType.HowToPlay);
+        Show(TypeUI.HowToPlay);
     }
 }

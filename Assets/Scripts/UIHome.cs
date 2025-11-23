@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIHome : BaseUI
+public class UIHome : UIRoot
 {
-    public override UIType Type => UIType.Home;
+    public override TypeUI Type => TypeUI.Home;
     [SerializeField] Button _btnPlay;
     [SerializeField] Button _btnHowToPlay;
 

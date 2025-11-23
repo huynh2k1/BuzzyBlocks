@@ -14,8 +14,12 @@ public class InputCtrl : MonoBehaviour
 
     public static Action<HexaCell> OnStackPlace;
 
+
+
     private void Update()
     {
+        if (GameCtrl.I.State != StateGame.Playing)
+            return;
         if (Input.GetMouseButtonDown(0))
         {
             HandleMouseDown();
@@ -33,15 +37,21 @@ public class InputCtrl : MonoBehaviour
 
     void HandleMouseDown()
     {
+        ClickHexaGrid();
         RaycastHit hit;
         Physics.Raycast(GetClickedRay(), out hit, 500, hexagonLayerMask);
 
-        if(hit.collider == null)
+        if (hit.collider == null)
         {
             return;
         }
 
+        MusicCtrl.I.PlaySFXByType(TypeSFX.CLICK);
         currentStack = hit.collider.GetComponent<Hexagon>().HexStack;
+        if(currentStack && GameCtrl.I.isRocket)
+        {
+            GameCtrl.I.isRocket = false;
+        }
         currentStackInitPos = currentStack.GetPos;
     }
 
@@ -61,16 +71,38 @@ public class InputCtrl : MonoBehaviour
         HoverHexaGrid();
     }
 
-    void HoverHexaGrid()
+    void ClickHexaGrid()
     {
+        if (GameCtrl.I.isRocket == false)
+            return;
+
         if (Physics.Raycast(GetClickedRay(), out RaycastHit hit, 500, hexagridLayerMask))
         {
             HexaCell hexaCell = hit.collider.GetComponentInParent<HexaCell>();
             if (hexaCell == null)
                 return;
-
-            if (hexaCell.IsOccupied)
+            if (hexaCell.IsOccupied == false)
+                return;
+            if (hexaCell.cellType == CellType.NORMAL)
             {
+                hexaCell.Stack.DestroyStack();
+                GameCtrl.I.isRocket = false;
+            }
+        }
+    }
+
+    void HoverHexaGrid()
+    {
+        if (Physics.Raycast(GetClickedRay(), out RaycastHit hit, 500, hexagridLayerMask))
+        {
+            HexaCell hexaCell = hit.collider.GetComponentInParent<HexaCell>();
+
+            if (hexaCell == null)
+                return;
+
+            if (hexaCell.IsOccupied || hexaCell.cellType != CellType.NORMAL)
+            {
+                //Tắt hover cell trước đó 
                 if(targetGridCell != null)
                 {
                     targetGridCell.Hover(false);
@@ -118,6 +150,8 @@ public class InputCtrl : MonoBehaviour
         currentStack.transform.position = targetGridCell.GetPos.With(y: 0.1f);
         currentStack.transform.SetParent(targetGridCell.transform);
         currentStack.Place();
+
+        MusicCtrl.I.PlaySFXByType(TypeSFX.PLACED);
 
         targetGridCell.AssignStack(currentStack);
         OnStackPlace?.Invoke(targetGridCell);

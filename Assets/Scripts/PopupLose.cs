@@ -2,14 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupLose : BasePopup
+public class PopupLose : RootPopup
 {
-    public override UIType Type => UIType.Lose;
+    public override TypeUI Type => TypeUI.Lose;
     [SerializeField] Button _btnReplay;
     [SerializeField] Button _btnHome;
 
-    public static Action OnClickReplayAction;
-    public static Action OnClickHomeAction;
+    [SerializeField] Text _txtCoin;
+
+    public static Action ReplayAction;
+    public static Action HomeAction;
 
     protected override void Awake()
     {
@@ -18,16 +20,31 @@ public class PopupLose : BasePopup
         _btnHome.onClick.AddListener(OnClickHome);
     }
 
+    public override void Active()
+    {
+        base.Active();
+        UpdateTextCoin();
+    }
+
+    void UpdateTextCoin()
+    {
+        _txtCoin.text = PrefData.Coin.ToString();
+    }
+
+    public override void DeActive()
+    {
+        base.DeActive();
+    }
     void OnClickReplay()
     {
-        Hide();
-        OnClickReplayAction?.Invoke();
+        DeActive();
+        ReplayAction?.Invoke();
     }
 
     void OnClickHome()
     {
-        Hide();
-        OnClickHomeAction?.Invoke();
+        DeActive();
+        HomeAction?.Invoke();
     }
 
 }

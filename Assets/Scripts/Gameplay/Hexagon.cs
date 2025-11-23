@@ -34,15 +34,15 @@ public class Hexagon : MonoBehaviour
     {
         LeanTween.cancel(gameObject);
         transform.DOKill();
-        float delay = transform.GetSiblingIndex() * 0.01f;
-        transform.DOLocalMove(targetPos, 0.2f)
+        float delay = transform.GetSiblingIndex() * 0.05f;
+        transform.DOLocalMove(targetPos, 0.3f)
             .SetEase(Ease.Linear)
             .SetDelay(delay);
 
         Vector3 dir = (targetPos - transform.localPosition).With(y: 0).normalized;
         Vector3 rotationAxis = Vector3.Cross(Vector3.up, dir);
-
-        LeanTween.rotateAround(gameObject, rotationAxis, 180, 0.2f)
+        MusicCtrl.I.PlaySFXByType(TypeSFX.MOVE);
+        LeanTween.rotateAround(gameObject, rotationAxis, 180, 0.3f)
             .setEase(LeanTweenType.easeInOutSine).setDelay(delay);
         //transform.DOLocalRotate(new Vector3(180, 0, 0), 0.2f)
         //    .SetEase(Ease.InOutSine).SetDelay(delay);
@@ -52,8 +52,12 @@ public class Hexagon : MonoBehaviour
     public void Vanish(float delay)
     {
         transform.DOKill();
-        transform.DOScale(Vector3.zero, 0.2f)
+        transform.DOScale(Vector3.zero, 0.3f)
             .SetDelay(delay)
-            .SetEase(Ease.InOutSine).OnComplete(() => Destroy(gameObject));
+            .SetEase(Ease.InOutSine).OnComplete(() =>
+            {
+                MusicCtrl.I.PlaySFXByType(TypeSFX.STACK);
+                Destroy(gameObject);
+            });
     }
 }

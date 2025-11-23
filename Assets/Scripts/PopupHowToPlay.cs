@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PopupHowToPlay : BasePopup
+public class PopupHowToPlay : RootPopup
 {
-    public override UIType Type => UIType.HowToPlay;
+    public override TypeUI Type => TypeUI.HowToPlay;
 }

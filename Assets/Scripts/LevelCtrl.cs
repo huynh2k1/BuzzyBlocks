@@ -2,15 +2,42 @@ using UnityEngine;
 
 public class LevelCtrl : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Level[] listLevel;
+    [SerializeField] Level levelPrefab;
+    public static Level CurLevel;
+    public void InitLevel()
     {
-        
+        DestroyCurrentLevel();
+        Level lvl = Instantiate(listLevel[PrefData.CurLevel], transform);
+        CurLevel = lvl;
+        ProgressCtrl.I.InitProgress(lvl.target);
+        StackSpawner.I.SpawnStacks();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextLevel()
     {
-        
+        CheckIncreaseLevel();
+        InitLevel();
+    }
+
+    public void CheckIncreaseLevel()
+    {
+        if(PrefData.CurLevel < listLevel.Length - 1)
+        {
+            PrefData.CurLevel++;
+        }
+        else
+        {
+            PrefData.CurLevel = 0;
+        }
+    }
+
+    public void DestroyCurrentLevel()
+    {
+        if (CurLevel != null)
+        {
+            CurLevel.Destroy();
+            CurLevel = null;
+        }
     }
 }

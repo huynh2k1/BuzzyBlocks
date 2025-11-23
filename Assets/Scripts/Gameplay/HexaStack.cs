@@ -31,6 +31,11 @@ public class HexaStack : MonoBehaviour
         return Hexagons.Contains(hexagon);
     }
 
+    public void DestroyStack()
+    {
+        Destroy(gameObject);
+    }
+
     public void Remove(Hexagon hexagon)
     {
         Hexagons.Remove(hexagon);

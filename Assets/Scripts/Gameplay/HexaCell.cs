@@ -5,9 +5,9 @@ public class HexaCell : MonoBehaviour
 {
     public HexaStack Stack { get; private set; } //Stack chiếm đóng
     public Vector3 GetPos => transform.position;
-
-    public int q;
-    public int r;
+    public Vector3Int gridPos;
+    public int y;
+    public int x;
 
     public int quantityUnlock;
 
@@ -25,6 +25,59 @@ public class HexaCell : MonoBehaviour
         private set { }
     }
 
+
+    public void Initialize(Grid grid)
+    {
+        gridPos = grid.WorldToCell(transform.position);
+        x = gridPos.x;
+        y = gridPos.y;
+        name = $"( {x}, {y})";
+        LoadType();
+    }
+
+    public void LoadType()
+    {
+        switch (cellType)
+        {
+            case CellType.EMPTY:
+                ShowLock(false);
+                break;
+            case CellType.NORMAL:
+                ShowLock(false);
+                break;
+            case CellType.LOCK10:
+                quantityUnlock = 10;
+                UpdateTxtNumUnlock();
+                ShowLock(true);
+                break;
+            case CellType.LOCK20:
+                quantityUnlock = 20;
+                UpdateTxtNumUnlock();
+                ShowLock(true);
+                break;
+            case CellType.LOCK30:
+                quantityUnlock = 30;
+                UpdateTxtNumUnlock();
+                ShowLock(true);    
+                break;
+            case CellType.LOCK50:
+                quantityUnlock = 50;
+                UpdateTxtNumUnlock();
+                ShowLock(true);    
+                break;
+            case CellType.LOCK100:
+                quantityUnlock = 100;
+                UpdateTxtNumUnlock();
+                ShowLock(true);
+                break;
+            case CellType.LOCK150:
+                quantityUnlock = 150;
+                UpdateTxtNumUnlock();
+                ShowLock(true);
+                break;
+        }
+    }
+
     public void Hover(bool isHover)
     {
         var mats = _renderer.materials;  // lấy ra mảng copy
@@ -32,30 +85,29 @@ public class HexaCell : MonoBehaviour
         _renderer.materials = mats;
     }
 
-    void UpdateTxtNumUnlock(int quantity)
+    void UpdateTxtNumUnlock()
     {
-        txtNumUnlock.text = quantity.ToString();
+        txtNumUnlock.text = quantityUnlock.ToString();
     }
 
-    void CheckQuantityRemaining(int number)
+    public void CheckQuantityRemaining(int number)
     {
         if(number >= quantityUnlock)
         {
             //Unlock
+            cellType = CellType.NORMAL;
             ShowLock(false);
         }
         else
         {
+            quantityUnlock -= number;
+            UpdateTxtNumUnlock();
             //Lock
         }
     }
 
-    void ShowLock(bool isShow, int quantity = 0)
+    void ShowLock(bool isShow)
     {
-        if (isShow)
-        {
-            UpdateTxtNumUnlock(quantity);
-        }
         lockObj.SetActive(isShow);  
     }
 
@@ -72,4 +124,6 @@ public enum CellType
     LOCK20,
     LOCK30,
     LOCK50,
+    LOCK100,
+    LOCK150,
 }

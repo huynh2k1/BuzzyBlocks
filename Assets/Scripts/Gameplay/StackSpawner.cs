@@ -1,10 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.XInput;
 
 public class StackSpawner : MonoBehaviour
 {
+    public static StackSpawner I;
+
     [Header("ELEMENTS")]
     public Transform stackPositionsParent;
     public Hexagon hexaPrefab;
@@ -17,12 +19,13 @@ public class StackSpawner : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        I = this;
         InputCtrl.OnStackPlace += StackPlaceCallback;
     }
 
     private void OnDestroy()
     {
-        //InputController.OnStackPlace -= StackPlaceCallback;
+        InputCtrl.OnStackPlace -= StackPlaceCallback;
     }
 
     private void StackPlaceCallback(HexaCell hexaCell)
@@ -30,22 +33,35 @@ public class StackSpawner : MonoBehaviour
         stackCounter++;
         if (stackCounter >= 3)
         {
-            stackCounter = 0;
             GenerateStacks();
         }
     }
 
-    private void Start()
+    public void GenerateStacks()
     {
-        GenerateStacks();
-    }
-
-    void GenerateStacks()
-    {
+        stackCounter = 0;
         for (int i = 0; i < stackPositionsParent.childCount; i++)
         {
             GenerateStack(stackPositionsParent.GetChild(i));
         }
+    }
+
+    public void SpawnStacks()
+    {
+        // Xoá tất cả stack con
+        for (int i = 0; i < stackPositionsParent.childCount; i++)
+        {
+            Transform pos = stackPositionsParent.GetChild(i);
+
+            // Xoá tất cả HexaStack đang tồn tại trong mỗi vị trí
+            foreach (Transform child in pos)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        // Tạo stack mới
+        GenerateStacks();
     }
 
     void GenerateStack(Transform parent)
