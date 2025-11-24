@@ -29,4 +29,5 @@ public class UICtrl : BaseUICtrl
     {
         Show(TypeUI.HowToPlay);
     }
+
 }

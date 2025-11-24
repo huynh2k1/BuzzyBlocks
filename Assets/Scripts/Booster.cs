@@ -61,18 +61,26 @@ public class Booster : MonoBehaviour
             if(PrefData.Coin >= price)
             {
                 PrefData.Coin -= price;
+                count++;
+                SaveCountRemaining();
+                UpdateTxtCount();
+
                 CoinCtrl.I.UpdateTxtCoin();
-                UpdateTextPrice();
+                CheckShowTxtPrice();
                 HandleActionBooster();
             }
             return;
         }
 
+        HandleActionBooster();
+    }
+
+    public void HandleUseSuccess()
+    {
         count--;
         SaveCountRemaining();
         UpdateTxtCount();
         CheckShowTxtPrice();
-        HandleActionBooster();
     }
 
     void HandleActionBooster()
@@ -80,10 +88,11 @@ public class Booster : MonoBehaviour
         switch (type)
         {
             case Type.Shuffle:
+                HandleUseSuccess();
                 StackSpawner.I.SpawnStacks();
                 break;
             case Type.Rocket:
-                GameCtrl.I.UseRocketBooster();
+                GameCtrl.I.UseRocketBooster(true);
                 break;
         }
     }

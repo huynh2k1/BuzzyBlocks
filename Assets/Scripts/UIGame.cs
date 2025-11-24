@@ -7,7 +7,8 @@ public class UIGame : UIRoot
     public override TypeUI Type => TypeUI.Game;
     [SerializeField] Button _btnHome;
     [SerializeField] Button _btnReplay;
-    [SerializeField] Booster[] _boosters;
+    [SerializeField] GameObject _tutRocket;
+    [SerializeField] Text _txtLevel;
 
     public static Action OnClickHomeAction;
     public static Action OnClickReplayAction;
@@ -21,11 +22,14 @@ public class UIGame : UIRoot
     public override void Active()
     {
         base.Active();
+        ShowTutRocket(false);
         CoinCtrl.I.UpdateTxtCoin();
-        foreach(var b in _boosters)
-        {
-            b.Initialze();
-        }
+        UpdateTextLevel();
+    }
+
+    void UpdateTextLevel()
+    {
+        _txtLevel.text = $"Level {PrefData.CurLevel + 1}";
     }
 
     void OnClickHome()
@@ -37,5 +41,8 @@ public class UIGame : UIRoot
         OnClickReplayAction?.Invoke();
     }
 
-
+    public void ShowTutRocket(bool isShow)
+    {
+        _tutRocket.SetActive(isShow);
+    }
 }

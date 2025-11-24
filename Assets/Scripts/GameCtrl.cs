@@ -6,9 +6,10 @@ public class GameCtrl : MonoBehaviour
     public StateGame State;
     [SerializeField] UICtrl uiCtrl;
     [SerializeField] LevelCtrl lvlCtrl;
-
+    [SerializeField] UIGame _uiGame;
     public bool isRocket;
 
+    [SerializeField] Booster[] _boosters;
     private void Awake()
     {
         I = this;
@@ -22,7 +23,7 @@ public class GameCtrl : MonoBehaviour
 
     private void OnEnable()
     {
-        UIHome.OnClickPlayAction += PlayGame;
+        UIHome.OnClickPlayAction += InitGame;
 
         UIGame.OnClickHomeAction += Home;
         UIGame.OnClickReplayAction += ReplayGame;
@@ -37,7 +38,7 @@ public class GameCtrl : MonoBehaviour
 
     private void OnDestroy()
     {
-        UIHome.OnClickPlayAction -= PlayGame;
+        UIHome.OnClickPlayAction -= InitGame;
 
         UIGame.OnClickHomeAction -= Home;
         UIGame.OnClickReplayAction -= ReplayGame;
@@ -56,27 +57,25 @@ public class GameCtrl : MonoBehaviour
         uiCtrl.ShowHome();
     }
 
-    void PlayGame()
+    void InitGame()
     {
         State = StateGame.Playing;
         uiCtrl.ShowGame();
         lvlCtrl.InitLevel();
         isRocket = false;
+        InitBooster();
     }
 
     void ReplayGame()
     {
-        State = StateGame.Playing;
-        uiCtrl.ShowGame();
-        lvlCtrl.InitLevel();
-        isRocket = false;
+        InitGame();
     }
 
     void NextGame()
     {
-        uiCtrl.ShowGame();
-        State = StateGame.Playing;
-        lvlCtrl.NextLevel();
+        lvlCtrl.CheckIncreaseLevel();
+
+        InitGame();
     }
 
     public void WinGame()
@@ -98,10 +97,30 @@ public class GameCtrl : MonoBehaviour
         uiCtrl.Show(TypeUI.Lose);
     }
 
-    public void UseRocketBooster()
+    //BOOSTER
+    public void InitBooster()
     {
-        isRocket = true;
+        foreach (var b in _boosters)
+        {
+            b.Initialze();
+        }
+    }
+    public void UseRocketBooster(bool isUse)
+    {
+        isRocket = isUse;
+        _uiGame.ShowTutRocket(isUse);
         //Show UI 
+    }
+
+    public void OnBoosterUseSuccess(Booster.Type type)
+    {
+        foreach(var b in _boosters)
+        {
+            if(b.type == type)
+            {
+                b.HandleUseSuccess();
+            }
+        }
     }
 }
 

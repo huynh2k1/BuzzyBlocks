@@ -10,6 +10,7 @@ public class HexaCell : MonoBehaviour
     public int x;
 
     public int quantityUnlock;
+    int quantityRemaining;
 
     public CellType cellType;
 
@@ -18,6 +19,10 @@ public class HexaCell : MonoBehaviour
     [SerializeField] GameObject lockObj;
     [SerializeField] MeshRenderer _renderer;
     [SerializeField] Material _normal, _hover;
+
+    //Effect
+    [SerializeField] ParticleSystem _effect;
+    [SerializeField] AudioSource _audioSource;
 
     public bool IsOccupied
     {
@@ -47,35 +52,32 @@ public class HexaCell : MonoBehaviour
                 break;
             case CellType.LOCK10:
                 quantityUnlock = 10;
-                UpdateTxtNumUnlock();
                 ShowLock(true);
                 break;
             case CellType.LOCK20:
                 quantityUnlock = 20;
-                UpdateTxtNumUnlock();
                 ShowLock(true);
                 break;
             case CellType.LOCK30:
                 quantityUnlock = 30;
-                UpdateTxtNumUnlock();
                 ShowLock(true);    
                 break;
             case CellType.LOCK50:
                 quantityUnlock = 50;
-                UpdateTxtNumUnlock();
                 ShowLock(true);    
                 break;
             case CellType.LOCK100:
                 quantityUnlock = 100;
-                UpdateTxtNumUnlock();
                 ShowLock(true);
                 break;
             case CellType.LOCK150:
                 quantityUnlock = 150;
-                UpdateTxtNumUnlock();
                 ShowLock(true);
                 break;
         }
+        quantityRemaining = quantityUnlock;
+        UpdateTxtNumUnlock();
+
     }
 
     public void Hover(bool isHover)
@@ -87,7 +89,7 @@ public class HexaCell : MonoBehaviour
 
     void UpdateTxtNumUnlock()
     {
-        txtNumUnlock.text = quantityUnlock.ToString();
+        txtNumUnlock.text = quantityRemaining.ToString();
     }
 
     public void CheckQuantityRemaining(int number)
@@ -95,12 +97,13 @@ public class HexaCell : MonoBehaviour
         if(number >= quantityUnlock)
         {
             //Unlock
+            PlayEffect();
             cellType = CellType.NORMAL;
             ShowLock(false);
         }
         else
         {
-            quantityUnlock -= number;
+            quantityRemaining = quantityUnlock - number;
             UpdateTxtNumUnlock();
             //Lock
         }
@@ -114,6 +117,12 @@ public class HexaCell : MonoBehaviour
     public void AssignStack(HexaStack stack)
     {
         Stack = stack;
+    }
+
+    public void PlayEffect()
+    {
+        _effect.Play();
+        _audioSource.Play();
     }
 }
 public enum CellType

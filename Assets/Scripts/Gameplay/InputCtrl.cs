@@ -50,7 +50,7 @@ public class InputCtrl : MonoBehaviour
         currentStack = hit.collider.GetComponent<Hexagon>().HexStack;
         if(currentStack && GameCtrl.I.isRocket)
         {
-            GameCtrl.I.isRocket = false;
+            GameCtrl.I.UseRocketBooster(false);
         }
         currentStackInitPos = currentStack.GetPos;
     }
@@ -82,11 +82,16 @@ public class InputCtrl : MonoBehaviour
             if (hexaCell == null)
                 return;
             if (hexaCell.IsOccupied == false)
+            {
+                GameCtrl.I.UseRocketBooster(false);
                 return;
+            }
             if (hexaCell.cellType == CellType.NORMAL)
             {
                 hexaCell.Stack.DestroyStack();
-                GameCtrl.I.isRocket = false;
+                hexaCell.PlayEffect();
+                GameCtrl.I.OnBoosterUseSuccess(Booster.Type.Rocket);
+                GameCtrl.I.UseRocketBooster(false);
             }
         }
     }

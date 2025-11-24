@@ -83,7 +83,7 @@ public class Level : MonoBehaviour
 
     bool CanPlace(HexaCell cell)
     {
-        if (cell.IsOccupied)
+        if (cell.IsOccupied || cell.cellType != CellType.NORMAL)
             return false;
         return true;
     }
